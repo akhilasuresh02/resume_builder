@@ -6,22 +6,24 @@
     <title>Register - Resume Builder</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body class="auth-page">
 
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">Resume Builder</div>
-    </nav>
+    <!-- Left Side - Background -->
+    <div class="auth-left"></div>
 
-    <div class="auth-container">
-        <h2>Create an Account</h2>
-        <form action="/register" method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" class="primary-btn">Register</button>
-        </form>
-        <p>Already have an account? <a href="/login">Login here</a></p>
+    <!-- Right Side - Register Form -->
+    <div class="auth-right">
+        <div class="auth-container">
+            <h1 class="website-title">RESUME BUILDER</h1> <!-- Website Title Added Here -->
+            <h2>Create an Account</h2>
+            <form action="/register" method="POST">
+                <input type="text" name="username" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="/login">Login here</a></p>
+        </div>
     </div>
 
 </body>

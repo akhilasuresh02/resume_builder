@@ -1,132 +1,61 @@
-/* General Styling */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: white;
-    text-align: center;
+/* Full-page container */
+.auth-page {
+    display: flex;
+    height: 100vh;
 }
 
-/* Navigation Bar */
-nav {
+/* Left Side - Background Image */
+.auth-left {
+    flex: 1;
+    background: url("../images/login-bg.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+/* Right Side - Login/Register Form */
+.auth-right {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px 50px;
-    background: rgba(255, 255, 255, 0.2);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 100;
+    background: rgb(247, 251, 250);
 }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-}
-
-/* Hero Section */
-.hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    padding: 80px 20px;
-}
-
-.hero-content {
-    max-width: 600px;
-    text-align: center;
-}
-
-.hero-content h1 {
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-.hero-content p {
-    font-size: 18px;
-    margin-bottom: 20px;
-}
-
-/* Primary Button (Get Started) */
-.primary-btn {
-    display: inline-block;
-    font-size: 18px;
-    background: white;
-    color: #1e3c72;
-    padding: 12px 24px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.primary-btn:hover {
-    background: #e0e0e0;
-}
-
-/* Secondary Button (Login) */
-.secondary-btn {
-    display: inline-block;
-    font-size: 18px;
-    background: #1e3c72;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    border: 2px solid white;
-    transition: 0.3s;
-}
-
-.secondary-btn:hover {
-    background: #2a5298;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-/* Auth Pages (Login & Register) */
+/* Login/Register Form Container */
 .auth-container {
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    max-width: 350px;
+    width: 100%;
+    padding: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border-radius: 10px;
 }
 
+/* Form Title */
 .auth-container h2 {
-    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000000;
 }
 
+/* Input Fields */
 .auth-container input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
 }
 
+/* Login/Register Button */
 .auth-container button {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
     border: none;
     border-radius: 5px;
-    background: white;
-    color: #1e3c72;
+    background: #013615;
+    color: white;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
@@ -134,31 +63,77 @@ footer {
 }
 
 .auth-container button:hover {
-    background: #e0e0e0;
+    background: #000000;
 }
 
+/* Link Text */
 .auth-container p {
-    color: white;
+    margin-top: 10px;
 }
 
 .auth-container a {
-    color: #1e3c72;
+    color: #000000;
     font-weight: bold;
+    text-decoration: none;
 }
-/* Navigation Bar */
-nav {
-    display: flex;
-    align-items: center;
-    padding: 15px 50px;
-    background: rgba(255, 255, 255, 0.2);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 100;
+/* Website Title */
+.website-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 15px;
+}
+.dashboard-body {
+    background: #e0f8e0;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
-.logo {
-    font-size: 24px;
+.dashboard-container {
+    margin-top: 50px;
+}
+
+.dashboard-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-container li {
+    margin: 10px 0;
+}
+
+.dashboard-container a {
+    padding: 10px 20px;
+    background: white;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
     font-weight: bold;
+    transition: 0.3s;
+}
+
+.dashboard-container a:hover {
+    background: black;
     color: white;
+}
+
+/* Reuse the existing layout for dashboard */
+.dashboard-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 10px;
+    text-align: center;
+}
+/* Reuse the existing layout for dashboard */
+.dashboard-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 10px;
+    text-align: center;
 }

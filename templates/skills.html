@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Skills</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+    <div class="auth-left"></div>
+    <div class="auth-right">
+        <div class="auth-container">
+            <h2>Add Skills</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages and not session.get('show_education_message') %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form method="POST">
+                <!-- Resume Selection Dropdown -->
+                <label for="resume_id">Select Resume:</label>
+                <select name="resume_id" required>
+                    {% if resumes %}
+                        <option value="" disabled {% if not latest_resume_id %}selected{% endif %}>Choose a resume</option>
+                        {% for resume in resumes %}
+                            <option value="{{ resume[0] }}" {% if latest_resume_id and latest_resume_id == resume[0] %}selected{% endif %}>{{ resume[1] }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="" disabled selected>No resumes available</option>
+                    {% endif %}
+                </select>
+
+                <input type="text" name="skill_name" placeholder="Skill Name" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

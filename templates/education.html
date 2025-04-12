@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Education</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .image-section {
+            flex: 1;
+            background-image: url('{{ url_for('static', filename='images/login-bg.jpg') }}');
+            background-size: cover;
+            background-position: center;
+        }
+        .form-section {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #f6fbf7;
+            padding: 40px;
+        }
+        .form-box {
+            background-color: #fff;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        .form-box.active {
+            display: block;
+        }
+        input, label, select {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #013615;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #000;
+        }
+        /* Style for the dropdown options */
+        select option {
+            color: #006400; /* Dark green color for options */
+        }
+        /* Optional: Style for the selected option */
+        select option:checked {
+            color: #006400; /* Ensures selected option retains the color */
+        }
+    </style>
+    <script>
+        function toggleLevel(level) {
+            const box = document.getElementById(level + "_form");
+            const checkbox = document.getElementById("check_" + level);
+            box.classList.toggle("active", checkbox.checked);
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="image-section"></div>
+    <div class="form-section">
+        <form method="POST">
+            <!-- Resume Selection Dropdown with preselected latest resume and fallback -->
+            <label for="resume_id">Select Resume:</label>
+            <select name="resume_id" required>
+                {% if resumes %}
+                    <option value="" disabled {% if not latest_resume_id %}selected{% endif %}>Choose a resume</option>
+                    {% for resume in resumes %}
+                        <option value="{{ resume[0] }}" {% if latest_resume_id and latest_resume_id == resume[0] %}selected{% endif %}>{{ resume[1] }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="" disabled selected>No resumes available</option>
+                {% endif %}
+            </select>
+            {% if latest_resume_title %}
+                <p>Latest Resume Added: {{ latest_resume_title }}</p>
+            {% endif %}
+
+            <h2>Select Education Levels to Add</h2>
+            {% for level in ['10th', '12th', 'UG', 'PG'] %}
+                <label>
+                    <input type="checkbox" id="check_{{ level }}" onchange="toggleLevel('{{ level }}')">
+                    {{ level }}
+                </label>
+            {% endfor %}
+
+            <hr>
+
+            {% for level in ['10th', '12th', 'UG', 'PG'] %}
+            <div class="form-box" id="{{ level }}_form">
+                <h3>{{ level }} Details</h3>
+                <input type="hidden" name="levels" value="{{ level }}">
+                <input type="text" name="{{ level }}_institution" placeholder="Institution Name">
+                <input type="number" name="{{ level }}_start_year" placeholder="Start Year">
+                <input type="number" name="{{ level }}_end_year" placeholder="End Year (leave blank if pursuing)">
+                <label><input type="checkbox" name="{{ level }}_is_pursuing"> Currently Pursuing</label>
+                <input type="number" step="0.01" name="{{ level }}_aggregate" placeholder="Aggregate %">
+            </div>
+            {% endfor %}
+
+            <button type="submit">Save Education Info</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

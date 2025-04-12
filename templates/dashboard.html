@@ -2,13 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        /* Full page layout with left image and right dashboard */
+        .auth-page {
+            display: flex;
+            height: 100vh;
+        }
+
+        .auth-left {
+            flex: 1;
+            background: url('{{ url_for('static', filename='images/login-bg.jpg') }}') no-repeat center center;
+            background-size: cover;
+        }
+
+        .auth-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f6fbf7;
+        }
+
+        .dashboard-box {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 450px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .dashboard-box h2 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #222;
+        }
+
+        .dashboard-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .dashboard-options a {
+            padding: 12px;
+            text-decoration: none;
+            background-color: #013615;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .dashboard-options a:hover {
+            background-color: #013615;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome to Your Dashboard</h2>
-    <p>You have successfully registered!</p>
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <div class="auth-page">
+        <!-- Left Side with Background Image -->
+        <div class="auth-left"></div>
+
+        <!-- Right Side with Dashboard Content -->
+        <div class="auth-right">
+            <div class="dashboard-box">
+                <h2>Welcome to Your Dashboard</h2>
+                <div class="dashboard-options">
+                    <a href="{{ url_for('add_resume') }}">Add Resume</a>
+                    <a href="{{ url_for('add_work_experience') }}">Add Work Experience</a>
+                    <a href="{{ url_for('add_education') }}">Add Education</a>
+                    <a href="{{ url_for('add_skills') }}">Add Skills</a>
+                    <a href="{{ url_for('add_achievements') }}">Add Achievements</a>
+                    <a href="{{ url_for('generate_resume') }}">Generate Resume</a>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

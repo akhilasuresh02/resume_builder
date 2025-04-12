@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Resume</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+    <div class="auth-left"></div>
+    <div class="auth-right">
+        <div class="auth-container">
+            <h2>Add Resume</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form method="POST">
+                <label for="title">Resume Title</label>
+            <input type="text" name="title" id="title" placeholder="e.g., Software Engineer Resume" required>
+
+            <label for="summary">Professional Summary</label>
+            <textarea name="summary" id="summary" rows="5" placeholder="Brief summary" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Resume</title>
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            margin: 40px;
+            color: #222;
+        }
+        h1, h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }
+        ul {
+            list-style: square;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ resume[2] }}</h1> <!-- Resume Title -->
+    <p>{{ resume[3] }}</p> <!-- Summary -->
+
+    <h2>Work Experience</h2>
+    {% for job in work_experience %}
+        <p><strong>{{ job[2] }}</strong> at {{ job[3] }} ({{ job[5] }} to {{ job[6] or "Present" }})</p>
+        <p>Location: {{ job[4] }}</p>
+    {% endfor %}
+
+    <h2>Education</h2>
+    {% for edu in education %}
+        <p><strong>{{ edu[2] }}</strong>, {{ edu[3] }} ({{ edu[4] }} - {{ edu[5] or "Present" }})</p>
+    {% endfor %}
+
+    <h2>Skills</h2>
+    <ul>
+        {% for skill in skills %}
+            <li>{{ skill[2] }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Achievements</h2>
+    {% for item in achievements %}
+        <p><strong>{{ item[2].capitalize() }}:</strong> {{ item[3] }}</p>
+        <p>{{ item[4] }}</p>
+    {% endfor %}
+</body>
+</html>
