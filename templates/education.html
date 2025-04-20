@@ -60,6 +60,47 @@
         select option:checked {
             color: #006400; /* Ensures selected option retains the color */
         }
+        .flash {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .flash.success {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .flash.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .back-button {
+            background-color: #6c757d;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+        /* Style for checkbox alignment */
+        .level-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Space between checkbox groups */
+            margin-bottom: 10px;
+        }
+        .level-checkboxes label {
+            display: flex;
+            align-items: center;
+            margin: 0; /* Remove default margin */
+            width: auto; /* Allow natural width */
+        }
+        .level-checkboxes input[type="checkbox"] {
+            margin-right: 5px; /* Space between checkbox and label text */
+        }
     </style>
     <script>
         function toggleLevel(level) {
@@ -73,6 +114,13 @@
 <div class="container">
     <div class="image-section"></div>
     <div class="form-section">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <form method="POST">
             <!-- Resume Selection Dropdown with preselected latest resume and fallback -->
             <label for="resume_id">Select Resume:</label>
@@ -86,21 +134,20 @@
                     <option value="" disabled selected>No resumes available</option>
                 {% endif %}
             </select>
-            {% if latest_resume_title %}
-                <p>Latest Resume Added: {{ latest_resume_title }}</p>
-            {% endif %}
 
             <h2>Select Education Levels to Add</h2>
-            {% for level in ['10th', '12th', 'UG', 'PG'] %}
-                <label>
-                    <input type="checkbox" id="check_{{ level }}" onchange="toggleLevel('{{ level }}')">
-                    {{ level }}
-                </label>
-            {% endfor %}
+            <div class="level-checkboxes">
+                {% for level in ['10th', '12th', 'Under Graduate', 'Post Graduate'] %}
+                    <label>
+                        <input type="checkbox" id="check_{{ level }}" onchange="toggleLevel('{{ level }}')">
+                        {{ level }}
+                    </label>
+                {% endfor %}
+            </div>
 
             <hr>
 
-            {% for level in ['10th', '12th', 'UG', 'PG'] %}
+            {% for level in ['10th', '12th', 'Under Graduate', 'Post Graduate'] %}
             <div class="form-box" id="{{ level }}_form">
                 <h3>{{ level }} Details</h3>
                 <input type="hidden" name="levels" value="{{ level }}">
@@ -109,10 +156,17 @@
                 <input type="number" name="{{ level }}_end_year" placeholder="End Year (leave blank if pursuing)">
                 <label><input type="checkbox" name="{{ level }}_is_pursuing"> Currently Pursuing</label>
                 <input type="number" step="0.01" name="{{ level }}_aggregate" placeholder="Aggregate %">
+                {% if level in ['Under Graduate', 'Post Graduate'] %}
+                    <input type="text" name="{{ level }}_programme" placeholder="Programme Name (e.g., BCA with Analytics)">
+                {% endif %}
             </div>
             {% endfor %}
 
             <button type="submit">Save Education Info</button>
+            <div class="button-group">
+                <a href="{{ url_for('add_work_experience') }}" class="back-button"><button type="button">Back</button></a>
+                <button type="submit" name="action" value="next">Next</button>
+            </div>
         </form>
     </div>
 </div>

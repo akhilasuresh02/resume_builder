@@ -4,6 +4,112 @@
     <meta charset="UTF-8">
     <title>Add Achievements</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            background-color: #f0f2f5;
+        }
+        .auth-page {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        .auth-left {
+            flex: 1;
+            background: url('{{ url_for('static', filename='images/login-bg.jpg') }}') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+        }
+        .auth-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f2f5;
+        }
+        .auth-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .auth-container h2 {
+            margin-bottom: 20px;
+            color: #000;
+            font-size: 24px;
+        }
+        .flash {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .flash.success {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .flash.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000000;
+        }
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a3c34;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #132c25;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .back-button {
+            background-color: #ffffff;
+        }
+        .back-button:hover {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body class="auth-page">
     <div class="auth-left"></div>
@@ -18,24 +124,42 @@
                 {% endif %}
             {% endwith %}
             <form method="POST">
-                <!-- Resume Selection Dropdown -->
-                <label for="resume_id">Select Resume:</label>
-                <select name="resume_id" required>
-                    {% if resumes %}
-                        <option value="" disabled {% if not latest_resume_id %}selected{% endif %}>Choose a resume</option>
-                        {% for resume in resumes %}
-                            <option value="{{ resume[0] }}" {% if latest_resume_id and latest_resume_id == resume[0] %}selected{% endif %}>{{ resume[1] }}</option>
-                        {% endfor %}
-                    {% else %}
-                        <option value="" disabled selected>No resumes available</option>
-                    {% endif %}
-                </select>
-
-                <input type="text" name="type" placeholder="Type (e.g. Certification, Award)" required>
-                <input type="text" name="name" placeholder="Achievement Name" required>
-                <textarea name="description" placeholder="Description" rows="4" required></textarea>
-
+                <div class="form-group">
+                    <label for="resume_id">Select Resume:</label>
+                    <select name="resume_id" id="resume_id" required>
+                        {% if resumes %}
+                            <option value="" disabled {% if not latest_resume_id %}selected{% endif %}>Choose a resume</option>
+                            {% for resume in resumes %}
+                                <option value="{{ resume[0] }}" {% if latest_resume_id and latest_resume_id == resume[0] %}selected{% endif %}>{{ resume[1] }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="" disabled selected>No resumes available</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select name="type" id="type" required>
+                        <option value="" disabled selected>Choose type</option>
+                        <option value="Award">Award</option>
+                        <option value="Project">Project</option>
+                        <option value="Recognition">Recognition</option>
+                        <option value="Certificate">Certificate</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Achievement Name</label>
+                    <input type="text" name="name" id="name" placeholder="Achievement Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" placeholder="Description" rows="4" required></textarea>
+                </div>
                 <button type="submit">Submit</button>
+                <div class="button-group">
+                    <a href="{{ url_for('add_skills') }}" class="back-button"><button type="button">Back</button></a>
+                    <button type="submit" name="action" value="next">Next</button>
+                </div>
             </form>
         </div>
     </div>

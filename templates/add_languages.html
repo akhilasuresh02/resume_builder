@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Skills</title>
+    <title>Add Languages</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         body {
@@ -71,18 +71,13 @@
             color: #000000;
         }
         .form-group select,
-        .form-group input,
-        .form-group textarea {
+        .form-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
             font-size: 14px;
-        }
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
         }
         button {
             width: 100%;
@@ -109,13 +104,19 @@
         .back-button:hover {
             background-color: #ffffff;
         }
+        .dashboard-button {
+            background-color: #007bff;
+        }
+        .dashboard-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body class="auth-page">
     <div class="auth-left"></div>
     <div class="auth-right">
         <div class="auth-container">
-            <h2>Add Skills</h2>
+            <h2>Add Languages</h2>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages and not session.get('show_education_message') %}
                     {% for category, message in messages %}
@@ -140,13 +141,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="skill_name">Skill Name/Details:</label>
-                    <textarea name="skill_name" id="skill_name" placeholder="Enter skill name or details (use bullet points with - or *)" required></textarea>
+                    <input type="text" name="language_name" placeholder="Language Name" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="proficiency_level" placeholder="Proficiency Level (e.g., Native, C2)" required>
                 </div>
 
                 <div class="button-group">
-                    <a href="{{ url_for('add_education') }}" class="back-button"><button type="button">Back</button></a>
-                    <button type="submit" name="action" value="next">Next</button>
+                    <a href="{{ url_for('add_achievements') }}" class="back-button"><button type="button">Back</button></a>
+                    <button type="submit" name="action" value="dashboard">Dashboard</button>
                 </div>
             </form>
         </div>

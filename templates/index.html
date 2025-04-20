@@ -3,93 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Builder</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Create Your Professional Resume</title>
     <style>
-        /* Pastel Green Background */
-        .landing-body {
-            background-color: #85be90; /* Soft Pastel Green */
+        body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            color: #000000;
-        }
-
-        /* Navigation Bar */
-        nav {
-            padding: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            background: none;
-        }
-
-        /* Hero Section */
-        .hero {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            height: 80vh;
+            align-items: center;
+            background: url('{{ url_for('static', filename='images/landing-bg.jpg') }}') no-repeat center center;
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden;
         }
-
-        .hero-content h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
+        .container {
+            text-align: center;
+            padding: 2rem;
         }
-
-        .hero-content p {
-            font-size: 18px;
-            margin-bottom: 20px;
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #ffffff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
-
-        /* Button Styling */
+        h1:hover {
+            transform: translateY(-5px) scale(1.05);
+            opacity: 0.9;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        p:hover {
+            transform: translateY(-5px) scale(1.02);
+            opacity: 0.9;
+        }
         .btn {
-            padding: 12px 24px;
-            font-size: 18px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: 2px solid black;
-            background: white;
-            color: black;
             display: inline-block;
-            transition: 0.3s;
+            padding: 1rem 2.5rem;
+            background-color: #2e7d32;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-
         .btn:hover {
-            background: black;
-            color: white;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-
-        /* Footer */
-        footer {
-            padding: 15px;
-            font-size: 14px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .feature-card h3 {
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p {
+            color: #004d40;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
-<body class="landing-body">
-
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">Resume Builder</div>
-    </nav>
-
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="hero-content">
-            <h1>Build Your Professional Resume</h1>
-            <p>Create a resume in minutes with our easy-to-use resume builder.</p>
-            <a href="/register" class="btn">Get Started</a>
+<body>
+    <div class="container">
+        <h1>Create Your Professional Resume</h1>
+        <p>Create a professional resume with ease and stand out to employers!</p>
+        <a href="/login" class="btn">Get Started</a>
+        <div class="features">
+            <div class="feature-card">
+                <h3>Easy to Use</h3>
+                <p>Simple and intuitive interface that makes resume building a breeze.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Standard ATS Template</h3>
+                <p>Utilize our single, optimized ATS-friendly resume template.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Export Ready</h3>
+                <p>Download your resume in PDF format, ready to send to employers.</p>
+            </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Resume Builder. All rights reserved.</p>
-    </footer>
-
 </body>
 </html>

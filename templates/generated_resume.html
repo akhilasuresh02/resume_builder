@@ -1,48 +1,248 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Generated Resume</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - {{ resume[2] }}</title>
     <style>
         body {
-            font-family: "Times New Roman", serif;
-            margin: 40px;
-            color: #222;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            line-height: 1.4;
+            color: #000;
+            margin: 0.5in;
+            max-width: 8.5in;
         }
-        h1, h2 {
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 4px;
+        .header {
+            text-align: center;
+            margin-bottom: 0.5em;
         }
-        ul {
-            list-style: square;
+        .name {
+            font-size: 24pt;
+            font-weight: bold;
+            margin: 0;
+        }
+        .contact-info {
+            text-align: center;
+            font-size: 10pt;
+            margin-bottom: 1em;
+        }
+        .section {
+            margin-bottom: 1em;
+        }
+        .section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0.2em;
+            margin-bottom: 0.5em;
+        }
+        .job-entry, .edu-entry, .skill-entry, .ach-entry {
+            margin-bottom: 0.5em;
+        }
+        .job-title {
+            font-weight: bold;
+        }
+        .skill-list, .language-list, .ach-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .skill-item, .language-item, .ach-item {
+            margin-bottom: 0.3em;
+        }
+        .download-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.5em 1em;
+            border: none;
+            cursor: pointer;
+            font-size: 12pt;
+            margin: 0.5em 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .download-btn:hover {
+            background-color: #0056b3;
+        }
+        .language-level {
+            width: 2em;
+            display: inline-block;
+            text-align: center;
+        }
+        /* Education styling with reduced spacing */
+        .edu-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+        }
+        .edu-left {
+            text-align: left;
+            margin-bottom: 0;
+        }
+        .edu-right {
+            text-align: right;
+            margin-bottom: 0;
+        }
+        p {
+            margin: 0.1em 0;
+        }
+        /* Work Experience styling */
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            width: 100%;
+        }
+        .job-dates {
+            font-style: italic;
+            margin-left: 1em;
+        }
+        /* Languages list styling */
+        .language-list {
+            margin-top: 0.5em;
+        }
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .language-item span {
+            margin-right: 1em;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('resume-content');
+            const opt = {
+                margin: 0.5,
+                filename: '{{ resume[2] | replace(" ", "_") }}_Resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Function to format date to dd/mm/yyyy
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // Apply date formatting on page load
+        window.onload = function() {
+            const dateElements = document.getElementsByClassName('job-date');
+            for (let element of dateElements) {
+                const formattedDate = formatDate(element.textContent);
+                if (formattedDate) element.textContent = formattedDate;
+            }
+        };
+    </script>
 </head>
 <body>
-    <h1>{{ resume[2] }}</h1> <!-- Resume Title -->
-    <p>{{ resume[3] }}</p> <!-- Summary -->
+    <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
+    <div id="resume-content">
+        <div class="header">
+            <h1 class="name">{{ resume[2] }}</h1>
+            <div class="contact-info">
+                <p>Email: {{ resume[4] or 'N/A' }} | Phone: {{ resume[5] or 'N/A' }}</p>
+            </div>
+        </div>
 
-    <h2>Work Experience</h2>
-    {% for job in work_experience %}
-        <p><strong>{{ job[2] }}</strong> at {{ job[3] }} ({{ job[5] }} to {{ job[6] or "Present" }})</p>
-        <p>Location: {{ job[4] }}</p>
-    {% endfor %}
+        <div class="section">
+            <div class="section-title">Summary</div>
+            <p>{{ resume[3] or 'N/A' }}</p>
+        </div>
 
-    <h2>Education</h2>
-    {% for edu in education %}
-        <p><strong>{{ edu[2] }}</strong>, {{ edu[3] }} ({{ edu[4] }} - {{ edu[5] or "Present" }})</p>
-    {% endfor %}
+        {% if work_experience %}
+            <div class="section">
+                <div class="section-title">Work Experience</div>
+                {% for job in work_experience %}
+                    <div class="job-entry">
+                        <div class="job-header">
+                            <p class="job-title">{{ job[2] }} | {{ job[3] }}</p>
+                            <p class="job-dates">
+                                <span class="job-date">{{ job[5] }}</span> - 
+                                <span class="job-date">{{ job[6] or 'Present' }}</span>
+                            </p>
+                        </div>
+                        <p>{{ job[7] or 'N/A' }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-    <h2>Skills</h2>
-    <ul>
-        {% for skill in skills %}
-            <li>{{ skill[2] }}</li>
-        {% endfor %}
-    </ul>
+        <div class="section">
+            <div class="section-title">Education</div>
+            {% for edu in education %}
+                <div class="edu-entry">
+                    <div class="edu-left">
+                        <p>{{ edu[3] }}</p> <!-- Institution -->
+                        {% if edu[2] in ['Under Graduate', 'Post Graduate'] and edu[8] %}
+                            <p class="edu-level"><strong>{{ edu[8] }}</strong></p> <!-- Only Programme -->
+                        {% else %}
+                            <p class="edu-level"><strong>{{ edu[2] }}</strong></p> <!-- Level only for 10th and 12th -->
+                        {% endif %}
+                    </div>
+                    <div class="edu-right">
+                        <p>{{ edu[4] }} - {{ edu[5] or ('Present' if edu[6] else 'N/A') }}</p>
+                        <p>Aggregate: {{ edu[7] or 'N/A' }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
-    <h2>Achievements</h2>
-    {% for item in achievements %}
-        <p><strong>{{ item[2].capitalize() }}:</strong> {{ item[3] }}</p>
-        <p>{{ item[4] }}</p>
-    {% endfor %}
+        {% if skills %}
+            <div class="section">
+                <div class="section-title">Skills</div>
+                <ul class="skill-list">
+                    {% for skill in skills %}
+                        {% for line in skill[2].split('\n') if skill[2] %}
+                            <li class="skill-item">{{ line | trim }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if achievements %}
+            <div class="section">
+                <div class="section-title">Achievements</div>
+                {% for item in achievements %}
+                    <div class="ach-entry">
+                        <p class="ach-item"><strong>{{ item[2] | capitalize }}: {{ item[3] }}</strong></p>
+                        <p>{{ item[4] or 'N/A' }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if languages %}
+            <div class="section">
+                <div class="section-title">Languages</div>
+                <ul class="language-list">
+                    {% for lang in languages %}
+                        <li class="language-item">
+                            <span>{{ lang[2] or 'N/A' }}</span>
+                            <span>{{ lang[3] or 'N/A' }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="section">
+                <div class="section-title">Languages</div>
+                <p>No languages listed.</p>
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>

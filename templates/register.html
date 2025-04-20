@@ -14,8 +14,15 @@
     <!-- Right Side - Register Form -->
     <div class="auth-right">
         <div class="auth-container">
-            <h1 class="website-title">RESUME BUILDER</h1> <!-- Website Title Added Here -->
+            <h1 class="website-title">RESUME BUILDER</h1>
             <h2>Create an Account</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <form action="/register" method="POST">
                 <input type="text" name="username" placeholder="Full Name" required>
                 <input type="email" name="email" placeholder="Email" required>

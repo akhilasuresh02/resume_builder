@@ -32,6 +32,7 @@
             justify-content: center;
             align-items: center;
             background: #f6fbf7;
+            position: relative; /* Enable positioning context for logout button */
         }
 
         .dashboard-box {
@@ -42,12 +43,32 @@
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             text-align: center;
+            position: relative; /* Keep for internal positioning if needed */
         }
 
         .dashboard-box h2 {
             margin-bottom: 30px;
             font-size: 28px;
             color: #222;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background-color: #013615;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 10; /* Ensure it stays above other content */
+        }
+
+        .logout-btn:hover {
+            background-color: #013615; /* Same as existing hover, adjust if needed */
+            transform: scale(1.05);
         }
 
         .dashboard-options {
@@ -69,6 +90,49 @@
         .dashboard-options a:hover {
             background-color: #013615;
         }
+
+        .resume-list {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .resume-list h3 {
+            font-size: 20px;
+            color: #222;
+            margin-bottom: 15px;
+        }
+
+        .resume-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resume-list li {
+            margin-bottom: 10px;
+            display: flex; /* Use flexbox for alignment */
+            justify-content: space-between; /* Push link to the right */
+            align-items: center; /* Vertically center the content */
+        }
+
+        .resume-list a {
+            padding: 10px;
+            text-decoration: none;
+            background-color: #013615;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block; /* Ensure it behaves as a block element */
+        }
+
+        .resume-list a:hover {
+            background-color: #013615;
+        }
+
+        .resume-list p {
+            font-size: 16px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -78,16 +142,38 @@
 
         <!-- Right Side with Dashboard Content -->
         <div class="auth-right">
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
             <div class="dashboard-box">
                 <h2>Welcome to Your Dashboard</h2>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 <div class="dashboard-options">
                     <a href="{{ url_for('add_resume') }}">Add Resume</a>
                     <a href="{{ url_for('add_work_experience') }}">Add Work Experience</a>
                     <a href="{{ url_for('add_education') }}">Add Education</a>
                     <a href="{{ url_for('add_skills') }}">Add Skills</a>
                     <a href="{{ url_for('add_achievements') }}">Add Achievements</a>
-                    <a href="{{ url_for('generate_resume') }}">Generate Resume</a>
-                   
+                    <a href="{{ url_for('add_languages') }}">Add Languages</a>
+                </div>
+                <div class="resume-list">
+                    <h3>Your Resumes</h3>
+                    {% if resumes %}
+                        <ul>
+                            {% for resume in resumes %}
+                                <li>
+                                    {{ resume[1] }}
+                                    <a href="{{ url_for('generate_resume', resume_id=resume[0]) }}">Generate Resume</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No resumes found. <a href="{{ url_for('add_resume') }}">Create one now</a>.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
