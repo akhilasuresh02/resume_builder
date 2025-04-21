@@ -1,19 +1,26 @@
-# Use an official Python runtime as the base image
+# Use official Python image
 FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set work directory
 WORKDIR /app
 
-# Copy the requirements file into the container
+# Install system dependencies (e.g., for PostgreSQL support)
+RUN apt-get update \
+    && apt-get install -y libpq-dev gcc \
+    && pip install --upgrade pip
+
+# Copy requirements and install dependencies
 COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application code
+# Copy project files
 COPY . .
 
-# Expose the port the app runs on (default Flask port is 5000)
+# Expose default Flask port
 EXPOSE 5000
 
 # Run the application

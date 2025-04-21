@@ -1,25 +1,52 @@
+import os
+import urllib.parse
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # Replace with a secure secret key
+app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Use env for secret key
 
-# PostgreSQL Database Configuration
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://myuser:mypassword@localhost/resume_db"
+# Database configuration
+dbname = os.getenv('DB_NAME', 'resume_db')
+user = os.getenv('DB_USER', 'myuser')
+password = os.getenv('DB_PASSWORD', 'mypassword')
+host = os.getenv('DB_HOST', 'localhost')
+port = os.getenv('DB_PORT', '5432')
+
+# URL-encode username and password to handle special characters
+encoded_user = urllib.parse.quote(user)
+encoded_password = urllib.parse.quote(password)
+
+# Construct SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"postgresql+psycopg2://{encoded_user}:{encoded_password}@{host}:{port}/{dbname}"
+)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Debug: Print the URI to verify
+print(f"SQLALCHEMY_DATABASE_URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 def get_db_connection():
-    return psycopg2.connect(
-        host="localhost",
-        database="resume_db",
-        user="myuser",       
-        password="mypassword" 
-    )
+    try:
+        return psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port
+        )
+    except psycopg2.Error as e:
+        print(f"Database connection failed: {e}")
+        raise
 
 class User(db.Model):
     __tablename__ = 'user'  
@@ -30,6 +57,7 @@ class User(db.Model):
 
 with app.app_context():
     db.create_all()
+
 
 @app.route('/logout')
 def logout():
