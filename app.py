@@ -62,9 +62,9 @@ with app.app_context():
 @app.route('/logout')
 def logout():
     # Clear the user session
-    session.pop('user_id', None)  # Remove user_id from session, if it exists
-    session.pop('username', None)  # Remove username from session, if it exists
-    return redirect(url_for('home'))  # Redirect to the 'home' endpoint without flash
+    session.pop('user_id', None)  
+    session.pop('username', None)  
+    return redirect(url_for('home'))  
 
 @app.route("/")
 def home():
@@ -104,7 +104,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["username"] = user.username
-            flash("Login successful!", "success")  # Keep login success message
+            flash("Login successful!", "success")  
             return redirect(url_for("dashboard"))
         else:
             flash("Login unsuccessful! Invalid credentials.", "danger")
