@@ -439,7 +439,7 @@ This project is open source and available under the MIT License.
 
 **Akhila Suresh**
 - GitHub: [@akhilasuresh02](https://github.com/akhilasuresh02)
-- Email: 22bcaf07@kristujayanti.com
+- Email: akhilasuresh1937@gmail.com
 
 ---
 
