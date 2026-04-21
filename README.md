@@ -59,7 +59,8 @@ Resume Builder is a full-stack web application designed to simplify the resume c
 ### Landing Page
 The welcoming landing page showcases the application's key features and includes a clear call-to-action button.
 
-![Landing Page](static/images/landing-page.png)
+<img width="1918" height="958" alt="landing page" src="https://github.com/user-attachments/assets/a08b37a4-da91-43ec-bb24-673368136324" />
+
 
 **Features highlighted:**
 - Easy to Use: Simple and intuitive interface
@@ -69,7 +70,8 @@ The welcoming landing page showcases the application's key features and includes
 ### Login Page
 Clean and professional login interface with seamless user authentication.
 
-![Login Page](static/images/login-page.png)
+<img width="1897" height="970" alt="login" src="https://github.com/user-attachments/assets/6187bc47-44b2-47cc-9b6f-03d4622a3ae3" />
+
 
 ## Tech Stack
 
